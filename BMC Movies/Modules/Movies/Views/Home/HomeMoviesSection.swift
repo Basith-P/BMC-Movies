@@ -19,7 +19,11 @@ struct HomeMoviesSection: View {
       ScrollView(.horizontal, showsIndicators: false) {
         LazyHStack {
           ForEach(movies) { movie in
-            MovieCard(movie: movie)
+            NavigationLink {
+              MovieDetailsPage(movie: movie)
+            } label: {
+              MovieCard(movie: movie)
+            }
           }
         }
         .padding(.horizontal)

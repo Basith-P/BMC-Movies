@@ -35,6 +35,7 @@ struct MovieCard: View {
       .padding()
       .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
     }
+    .multilineTextAlignment(.leading)
     .aspectRatio(2 / 3, contentMode: .fill)
     .frame(width: 160)
     .clipShape(.rect(cornerRadius: 20))
