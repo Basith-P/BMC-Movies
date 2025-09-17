@@ -8,17 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+  @StateObject private var moviesVM = MoviesViewModel()
+
+  var body: some View {
+    NavigationView {
+      TabView {
+        HomePage(moviesVM: moviesVM)
+          .tabItem {
+            Label("Home", systemImage: "house")
+          }
+        Text("Search")
+          .tabItem {
+            Label("Search", systemImage: "magnifyingglass")
+          }
+        Text("Favorites")
+          .tabItem {
+            Label("Favorites", systemImage: "heart")
+          }
+      }
     }
+  }
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }
