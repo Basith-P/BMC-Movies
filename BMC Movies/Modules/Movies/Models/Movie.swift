@@ -23,7 +23,7 @@ struct Movie: Decodable, Identifiable {
   let video: Bool
   let voteAverage: Double
   let voteCount: Int
-  
+
   enum CodingKeys: String, CodingKey {
     case adult
     case backdropPath = "backdrop_path"
@@ -51,7 +51,14 @@ struct Movie: Decodable, Identifiable {
     guard let backdropPath = backdropPath else { return nil }
     return URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)")
   }
-  
+
+  func genres(using provider: GenreProvider) -> [Genre] {
+    genreIds.compactMap { id in
+      guard let name = provider.genreName(for: id) else { return nil }
+      return Genre(id: id, name: name)
+    }
+  }
+
   static var sampleList: [Movie] {
     [
       Movie(

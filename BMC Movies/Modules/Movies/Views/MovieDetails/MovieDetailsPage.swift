@@ -11,10 +11,12 @@ import Kingfisher
 struct MovieDetailsPage: View {
   let movie: Movie
 
+  @ObservedObject private var genreCache = GenreCache.shared
+  @State private var movieGenres: [Genre] = []
+
   var body: some View {
     ScrollView(showsIndicators: false) {
-      VStack(alignment: .leading, spacing: 16) {
-        // --- Backdrop and Poster ---
+      VStack(alignment: .leading, spacing: 20) {
         ZStack(alignment: .bottomLeading) {
           KFImage(movie.backdropURL)
             .resizable()
@@ -51,7 +53,6 @@ struct MovieDetailsPage: View {
         }
         .padding(.bottom, 60)
 
-        // --- Rating ---
         HStack {
           Image(systemName: "star.fill")
             .foregroundColor(.yellow)
@@ -63,7 +64,6 @@ struct MovieDetailsPage: View {
         }
         .padding(.horizontal)
 
-        // --- Overview ---
         VStack(alignment: .leading, spacing: 8) {
           Text("Overview")
             .font(.rounded(.title3, weight: .bold))
@@ -73,7 +73,27 @@ struct MovieDetailsPage: View {
         }
         .padding(.horizontal)
 
-        Spacer()
+        if !movieGenres.isEmpty {
+          VStack(alignment: .leading, spacing: 8) {
+            Text("Genres")
+              .font(.rounded(.title3, weight: .bold))
+              .padding(.horizontal)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+              HStack {
+                ForEach(movieGenres) { genre in
+                  Text(genre.name)
+                    .font(.rounded(.caption, weight: .semibold))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.gray.opacity(0.2))
+                    .clipShape(Capsule())
+                }
+              }
+              .padding(.horizontal)
+            }
+          }
+        }
       }
     }
     .multilineTextAlignment(.leading)
@@ -81,6 +101,10 @@ struct MovieDetailsPage: View {
     .navigationBarTitleDisplayMode(.inline)
     .ignoresSafeArea(edges: .top)
     .background(Color.cBackground.ignoresSafeArea())
+    .onAppear { movieGenres = movie.genres(using: genreCache) }
+    .onChange(of: genreCache.genres) { genres in
+      movieGenres = movie.genres(using: genreCache)
+    }
   }
 }
 
