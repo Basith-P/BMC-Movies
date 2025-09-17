@@ -15,6 +15,7 @@ enum MovieDBEndpoint {
   case nowPlaying
   case popular
   case topRated
+  case search(query: String)
 }
 
 extension MovieDBEndpoint: MovieDBAPIEndpoint {
@@ -25,6 +26,7 @@ extension MovieDBEndpoint: MovieDBAPIEndpoint {
     case .nowPlaying: "movie/now_playing"
     case .popular: "movie/popular"
     case .topRated: "movie/top_rated"
+    case .search: "search/movie"
     }
   }
 
@@ -32,6 +34,11 @@ extension MovieDBEndpoint: MovieDBAPIEndpoint {
     switch self {
     case .nowPlaying, .popular, .topRated:
       [URLQueryItem(name: "language", value: "en-US")]
+    case .search(let query):
+      [
+        URLQueryItem(name: "language", value: "en-US"),
+        URLQueryItem(name: "query", value: query)
+      ]
     }
   }
 }

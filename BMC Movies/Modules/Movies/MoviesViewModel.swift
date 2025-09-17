@@ -29,38 +29,43 @@ class MoviesViewModel: ObservableObject {
   }
 
   func fetchNowPlaying() {
-    fetchMovies(of: .nowPlaying) { [weak self] movies in
-      self?.nowPlayingState = .loaded(movies)
-    }
+    fetchMovies(for: \MoviesViewModel.nowPlayingState, for: .nowPlaying)
   }
 
   func fetchPopular() {
-    fetchMovies(of: .popular) { [weak self] movies in
-      self?.popularState = .loaded(movies)
-    }
+    fetchMovies(for: \MoviesViewModel.popularState, for: .popular)
   }
 
   func fetchTopRated() {
-    fetchMovies(of: .topRated) { [weak self] movies in
-      self?.topRatedState = .loaded(movies)
-    }
+    fetchMovies(for: \MoviesViewModel.topRatedState, for: .topRated)
   }
 
   func searchMovie(query: String) {
-    // https://api.themoviedb.org/3/search/movie
-    // query string required
+    guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+      return
+    }
+
+    fetchMovies(for: \MoviesViewModel.searchResults, for: .search(query: query))
   }
 
   // MARK: - Private Methods
 
-  private func fetchMovies(of endpoint: MovieDBEndpoint, completion: @escaping ([Movie]) -> Void) {
+  private func fetchMovies(for stateKeyPath: ReferenceWritableKeyPath<MoviesViewModel, LoadableState<[Movie]>>, for endpoint: MovieDBEndpoint) {
+    self[keyPath: stateKeyPath] = .loading
+
     networkService.request(endpoint: endpoint)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] sinkCompletion in
-        
-      } receiveValue: { (response: MovieResponse) in
-        completion(response.results)
+        switch sinkCompletion {
+        case .failure(let error):
+          self?[keyPath: stateKeyPath] = .failed(error)
+        case .finished:
+          break
+        }
+      } receiveValue: { [weak self] (response: MovieResponse) in
+        self?[keyPath: stateKeyPath] = .loaded(response.results)
       }
       .store(in: &cancellables)
   }
 }
+
