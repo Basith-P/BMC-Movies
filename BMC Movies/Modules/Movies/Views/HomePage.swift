@@ -9,34 +9,24 @@ import SwiftUI
 
 struct HomePage: View {
   @ObservedObject var moviesVM: MoviesViewModel
-
+  
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading) {
-        Text("Now Playing").padding(.leading)
-        ScrollView(.horizontal, showsIndicators: false) {
-          LazyHStack {
-            ForEach(Movie.sampleList) { movie in
-              ZStack {
-                Color.red
-                
-              }
-              .aspectRatio(2 / 3, contentMode: .fill)
-              .frame(width: 160)
-            }
-          }
-          .padding(.horizontal)
+    NavigationView {
+      ScrollView(showsIndicators: false) {
+        VStack(alignment: .leading, spacing: 24) {
+          HomeMoviesSection(title: "Now Playing", movies: moviesVM.nowPlayingMovies)
+          HomeMoviesSection(title: "Popular", movies: moviesVM.popularMovies)
+          HomeMoviesSection(title: "Top Rated", movies: moviesVM.topRatedMovies)
         }
+        .padding(.vertical, 24)
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
-      .padding(.vertical)
-      .frame(maxWidth: .infinity, alignment: .leading)
+      .navigationTitle("Movies")
+      .background(Color.cBackground.ignoresSafeArea())
     }
-    .navigationTitle("Movies")
   }
 }
 
 #Preview {
-  NavigationView {
-    HomePage(moviesVM: MoviesViewModel())
-  }
+  HomePage(moviesVM: MoviesViewModel())
 }

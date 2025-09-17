@@ -23,26 +23,26 @@ class MoviesViewModel: ObservableObject {
   init(networkService: NetworkService = URLSessionNetworkService()) {
     self.networkService = networkService
 
-    nowPlaying()
-    popular()
-    topRated()
+    fetchNowPlaying()
+    fetchPopular()
+    fetchTopRated()
   }
 
-  func nowPlaying() {
+  func fetchNowPlaying() {
     fetchMovies(of: .nowPlaying) { [weak self] movies in
       self?.nowPlayingMovies = movies
       print("Now Playing Movies: \(movies.count)")
     }
   }
 
-  func popular() {
+  func fetchPopular() {
     fetchMovies(of: .popular) { [weak self] movies in
       self?.popularMovies = movies
       print("Popular Movies: \(movies.count)")
     }
   }
 
-  func topRated() {
+  func fetchTopRated() {
     fetchMovies(of: .topRated) { [weak self] movies in
       self?.topRatedMovies = movies
       print("Top Rated Movies: \(movies.count)")
