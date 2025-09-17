@@ -9,10 +9,10 @@ import Combine
 import SwiftUI
 
 class MoviesViewModel: ObservableObject {
-  @Published var nowPlayingMovies: [Movie] = []
-  @Published var popularMovies: [Movie] = []
-  @Published var topRatedMovies: [Movie] = []
-  @Published var searchResults: [Movie] = []
+  @Published var nowPlayingState: LoadableState<[Movie]> = .idle
+  @Published var popularState: LoadableState<[Movie]> = .idle
+  @Published var topRatedState: LoadableState<[Movie]> = .idle
+  @Published var searchResults: LoadableState<[Movie]> = .idle
 
   @Published var isLoading: Bool = false
   @Published var error: NetworkError? = nil
@@ -30,22 +30,19 @@ class MoviesViewModel: ObservableObject {
 
   func fetchNowPlaying() {
     fetchMovies(of: .nowPlaying) { [weak self] movies in
-      self?.nowPlayingMovies = movies
-      print("Now Playing Movies: \(movies.count)")
+      self?.nowPlayingState = .loaded(movies)
     }
   }
 
   func fetchPopular() {
     fetchMovies(of: .popular) { [weak self] movies in
-      self?.popularMovies = movies
-      print("Popular Movies: \(movies.count)")
+      self?.popularState = .loaded(movies)
     }
   }
 
   func fetchTopRated() {
     fetchMovies(of: .topRated) { [weak self] movies in
-      self?.topRatedMovies = movies
-      print("Top Rated Movies: \(movies.count)")
+      self?.topRatedState = .loaded(movies)
     }
   }
 

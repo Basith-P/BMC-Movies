@@ -19,7 +19,7 @@ struct ContentView: View {
           Label("Home", systemImage: selectedTab == 0 ? "house.fill": "house")
         }
         .tag(0)
-      Text("Search")
+      SearchPage(moviesVM: moviesVM)
         .tabItem {
           Label("Search", systemImage: "magnifyingglass")
         }
