@@ -144,7 +144,8 @@ extension SearchPage {
             .frame(width: 120, height: 120)
 
           Image(systemName: "film.stack")
-            .font(.system(size: 50, weight: .light))
+            .font(.system(size: 50, weight: .regular))
+            .opacity(0.5)
         }
 
         VStack(spacing: 12) {
@@ -156,6 +157,7 @@ extension SearchPage {
             .opacity(0.7)
             .multilineTextAlignment(.center)
             .lineSpacing(4)
+            .frame(maxWidth: 300)
         }
       }
 
@@ -223,7 +225,7 @@ extension SearchPage {
         Circle()
           .fill(Color.red.opacity(0.2))
           .frame(width: 100, height: 100)
-        
+        	
         Image(systemName: "exclamationmark")
           .font(.system(size: 40, weight: .light))
           .foregroundColor(.red)

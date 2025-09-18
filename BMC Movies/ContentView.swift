@@ -24,7 +24,7 @@ struct ContentView: View {
           Label("Search", systemImage: "magnifyingglass")
         }
         .tag(1)
-      Text("Favorites")
+      FavoritesPage()
         .tabItem {
           Label("Favorites", systemImage: selectedTab == 2 ? "heart.fill" : "heart")
         }

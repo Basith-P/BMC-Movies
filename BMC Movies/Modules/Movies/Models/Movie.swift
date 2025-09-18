@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Decodable, Identifiable {
+struct Movie: Codable, Identifiable {
   let adult: Bool
   let backdropPath: String?
   let id: Int
@@ -57,6 +57,34 @@ struct Movie: Decodable, Identifiable {
       guard let name = provider.genreName(for: id) else { return nil }
       return Genre(id: id, name: name)
     }
+  }
+
+  static func from(_ favoriteMovie: FavoriteMovie) -> Movie? {
+    guard let title = favoriteMovie.title,
+          let originalTitle = favoriteMovie.originalTitle,
+          let overview = favoriteMovie.overview,
+          let releaseDate = favoriteMovie.releaseDate,
+          let originalLanguage = favoriteMovie.originalLanguage else {
+      return nil
+    }
+
+    return Movie(
+      adult: favoriteMovie.adult,
+      backdropPath: favoriteMovie.backdropPath,
+      id: Int(favoriteMovie.id),
+      title: title,
+      originalTitle: originalTitle,
+      overview: overview,
+      posterPath: favoriteMovie.posterPath,
+      mediaType: nil,
+      originalLanguage: originalLanguage,
+      genreIds: (favoriteMovie.genreIds as? [Int]) ?? [],
+      popularity: favoriteMovie.popularity,
+      releaseDate: releaseDate,
+      video: false,
+      voteAverage: favoriteMovie.voteAverage,
+      voteCount: Int(favoriteMovie.voteCount)
+    )
   }
 
   static var sampleList: [Movie] {

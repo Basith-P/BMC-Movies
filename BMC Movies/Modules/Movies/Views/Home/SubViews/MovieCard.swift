@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MovieCard: View {
   let movie: Movie
+  @StateObject private var favoritesManager = FavoritesManager.shared
   
   var body: some View {
     ZStack {
@@ -39,6 +40,18 @@ struct MovieCard: View {
     .aspectRatio(2 / 3, contentMode: .fill)
     .frame(width: 160)
     .clipShape(.rect(cornerRadius: 20))
+    .overlay(
+      Button {
+        favoritesManager.toggleFavorite(movie)
+      } label: {
+        Image(systemName: favoritesManager.isFavorite(movie) ? "heart.fill" : "heart")
+          .foregroundColor(favoritesManager.isFavorite(movie) ? .accent : .white)
+          .font(.title2)
+          .shadow(radius: 4)
+      }
+      .padding(8),
+      alignment: .topTrailing
+    )
   }
 }
 
