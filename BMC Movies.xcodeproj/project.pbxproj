@@ -18,10 +18,18 @@
 			remoteGlobalIDString = B1DBD3262E7AF8E500F30226;
 			remoteInfo = "BMC Movies";
 		};
+		B1A156062E7DAA6E00D80851 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B1DBD31F2E7AF8E500F30226 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B1DBD3262E7AF8E500F30226;
+			remoteInfo = "BMC Movies";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		236AFF2A2E7D1DE8005963F7 /* BMC_MoviesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMC_MoviesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1A156022E7DAA6E00D80851 /* BMC MoviesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BMC MoviesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1DBD3272E7AF8E500F30226 /* BMC Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BMC Movies.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -49,6 +57,11 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		B1A156032E7DAA6E00D80851 /* BMC MoviesTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "BMC MoviesTests";
+			sourceTree = "<group>";
+		};
 		B1DBD3292E7AF8E500F30226 /* BMC Movies */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "BMC Movies";
@@ -58,6 +71,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		236AFF272E7D1DE8005963F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1A155FF2E7DAA6E00D80851 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -81,6 +101,7 @@
 				236AFF402E7D296B005963F7 /* Common */,
 				B1DBD3292E7AF8E500F30226 /* BMC Movies */,
 				236AFF2B2E7D1DE8005963F7 /* BMC_MoviesUITests */,
+				B1A156032E7DAA6E00D80851 /* BMC MoviesTests */,
 				B1DBD3282E7AF8E500F30226 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +111,7 @@
 			children = (
 				B1DBD3272E7AF8E500F30226 /* BMC Movies.app */,
 				236AFF2A2E7D1DE8005963F7 /* BMC_MoviesUITests.xctest */,
+				B1A156022E7DAA6E00D80851 /* BMC MoviesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,6 +141,29 @@
 			productName = BMC_MoviesUITests;
 			productReference = 236AFF2A2E7D1DE8005963F7 /* BMC_MoviesUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		B1A156012E7DAA6E00D80851 /* BMC MoviesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1A1560A2E7DAA6E00D80851 /* Build configuration list for PBXNativeTarget "BMC MoviesTests" */;
+			buildPhases = (
+				B1A155FE2E7DAA6E00D80851 /* Sources */,
+				B1A155FF2E7DAA6E00D80851 /* Frameworks */,
+				B1A156002E7DAA6E00D80851 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B1A156072E7DAA6E00D80851 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B1A156032E7DAA6E00D80851 /* BMC MoviesTests */,
+			);
+			name = "BMC MoviesTests";
+			packageProductDependencies = (
+			);
+			productName = "BMC MoviesTests";
+			productReference = B1A156022E7DAA6E00D80851 /* BMC MoviesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		B1DBD3262E7AF8E500F30226 /* BMC Movies */ = {
 			isa = PBXNativeTarget;
@@ -158,6 +203,10 @@
 						CreatedOnToolsVersion = 26.0;
 						TestTargetID = B1DBD3262E7AF8E500F30226;
 					};
+					B1A156012E7DAA6E00D80851 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = B1DBD3262E7AF8E500F30226;
+					};
 					B1DBD3262E7AF8E500F30226 = {
 						CreatedOnToolsVersion = 26.0;
 					};
@@ -182,12 +231,20 @@
 			targets = (
 				B1DBD3262E7AF8E500F30226 /* BMC Movies */,
 				236AFF292E7D1DE8005963F7 /* BMC_MoviesUITests */,
+				B1A156012E7DAA6E00D80851 /* BMC MoviesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		236AFF282E7D1DE8005963F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1A156002E7DAA6E00D80851 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -211,6 +268,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B1A155FE2E7DAA6E00D80851 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B1DBD3232E7AF8E500F30226 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -225,6 +289,11 @@
 			isa = PBXTargetDependency;
 			target = B1DBD3262E7AF8E500F30226 /* BMC Movies */;
 			targetProxy = 236AFF302E7D1DE8005963F7 /* PBXContainerItemProxy */;
+		};
+		B1A156072E7DAA6E00D80851 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B1DBD3262E7AF8E500F30226 /* BMC Movies */;
+			targetProxy = B1A156062E7DAA6E00D80851 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -264,6 +333,46 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "BMC Movies";
+			};
+			name = Release;
+		};
+		B1A156082E7DAA6E00D80851 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.basith.BMC-MoviesTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BMC Movies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BMC Movies";
+			};
+			name = Debug;
+		};
+		B1A156092E7DAA6E00D80851 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.basith.BMC-MoviesTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BMC Movies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BMC Movies";
 			};
 			name = Release;
 		};
@@ -476,6 +585,15 @@
 			buildConfigurations = (
 				236AFF332E7D1DE8005963F7 /* Debug */,
 				236AFF342E7D1DE8005963F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1A1560A2E7DAA6E00D80851 /* Build configuration list for PBXNativeTarget "BMC MoviesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1A156082E7DAA6E00D80851 /* Debug */,
+				B1A156092E7DAA6E00D80851 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

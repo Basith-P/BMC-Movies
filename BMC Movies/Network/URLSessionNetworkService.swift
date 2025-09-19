@@ -9,10 +9,18 @@ import Combine
 import Foundation
 
 struct URLSessionNetworkService: NetworkService {
+  private let session: URLSession
+  private let decoder: JSONDecoder
+
+  init(session: URLSession = .shared, decoder: JSONDecoder = .init()) {
+    self.session = session
+    self.decoder = decoder
+  }
+
   func request<T: Decodable>(endpoint: APIEndpoint) -> AnyPublisher<T, NetworkError> {
     do {
       let urlRequest = try endpoint.asURLRequest()
-      return URLSession.shared.dataTaskPublisher(for: urlRequest)
+      return session.dataTaskPublisher(for: urlRequest)
         .tryMap { data, response -> Data in
           guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
@@ -22,12 +30,16 @@ struct URLSessionNetworkService: NetworkService {
           }
           return data
         }
-        .decode(type: T.self, decoder: JSONDecoder())
+        .decode(type: T.self, decoder: decoder)
         .mapError { error -> NetworkError in
-          if let networkError = error as? NetworkError {
+          if let urlError = error as? URLError {
+            return .requestFailed(urlError)
+          } else if let decodingError = error as? DecodingError {
+            return .decodingFailed(decodingError)
+          } else if let networkError = error as? NetworkError {
             return networkError
           } else {
-            return .decodingFailed(error)
+            return .requestFailed(error)
           }
         }
         .eraseToAnyPublisher()
