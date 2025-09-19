@@ -44,7 +44,7 @@ class GenreCache: ObservableObject, GenreProvider {
     request.httpMethod = "GET"
     request.allHTTPHeaderFields = [
       "accept": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjM2ZTNkYzRmNzcxZmRiZDFlMDMxZjU0NWRhYmE2OCIsIm5iZiI6MTc1ODEwNjUyOC4zMDQsInN1YiI6IjY4Y2E5M2EwM2NmYjc3ZjU0ZGU0ZmIzNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.A5ZNbRRoWThfQwwZu6j2JLHeJQynTZhy8GvorZBqCWo"
+      "Authorization": "Bearer \(AppConfig.tmdbAccessToken)"
     ]
 
     cancellable = URLSession.shared.dataTaskPublisher(for: request)

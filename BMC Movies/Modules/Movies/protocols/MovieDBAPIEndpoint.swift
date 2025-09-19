@@ -19,11 +19,9 @@ extension MovieDBAPIEndpoint {
   }
 
   var headers: [String : String]? {
-    let apiAccessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjM2ZTNkYzRmNzcxZmRiZDFlMDMxZjU0NWRhYmE2OCIsIm5iZiI6MTc1ODEwNjUyOC4zMDQsInN1YiI6IjY4Y2E5M2EwM2NmYjc3ZjU0ZGU0ZmIzNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.A5ZNbRRoWThfQwwZu6j2JLHeJQynTZhy8GvorZBqCWo"
-
     return [
       "accept": "application/json",
-      "Authorization": "Bearer \(apiAccessToken)"
+      "Authorization": "Bearer \(AppConfig.tmdbAccessToken)"
     ]
   }
 }
