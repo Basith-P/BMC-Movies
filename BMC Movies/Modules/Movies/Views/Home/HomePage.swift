@@ -14,9 +14,21 @@ struct HomePage: View {
     NavigationView {
       ScrollView(showsIndicators: false) {
         VStack(alignment: .leading, spacing: 24) {
-          HomeMoviesSection(title: "Now Playing", moviesState: moviesVM.nowPlayingState)
-          HomeMoviesSection(title: "Popular", moviesState: moviesVM.popularState)
-          HomeMoviesSection(title: "Top Rated", moviesState: moviesVM.topRatedState)
+          HomeMoviesSection(
+            title: "Now Playing",
+            sectionAccessibiliyId: AccessibilyId.nowPlaying,
+            moviesState: moviesVM.nowPlayingState
+          )
+          HomeMoviesSection(
+            title: "Popular",
+            sectionAccessibiliyId: AccessibilyId.popular,
+            moviesState: moviesVM.popularState
+          )
+          HomeMoviesSection(
+            title: "Top Rated",
+            sectionAccessibiliyId: AccessibilyId.topRated,
+            moviesState: moviesVM.topRatedState
+          )
         }
         .padding(.vertical, 24)
         .frame(maxWidth: .infinity, alignment: .leading)

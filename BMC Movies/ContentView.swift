@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
-  @StateObject private var moviesVM = MoviesViewModel()
-  
+  @StateObject private var moviesVM: MoviesViewModel
+
+  init() {
+#if DEBUG
+    let isUITest = ProcessInfo.processInfo.arguments.contains("UI_TESTS")
+    _moviesVM = .init(wrappedValue: .init(networkService: isUITest ? MockNetworkService() : URLSessionNetworkService()))
+#else
+    _moviesVM = .init(wrappedValue: .init())
+#endif
+  }
+
   @State private var selectedTab = 0
   
   var body: some View {

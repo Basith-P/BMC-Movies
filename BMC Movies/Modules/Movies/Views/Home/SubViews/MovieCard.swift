@@ -49,7 +49,8 @@ struct MovieCard: View {
           .font(.title2)
           .shadow(radius: 4)
       }
-      .padding(8),
+      .padding(8)
+      .accessibilityIdentifier(AccessibilyId.favoritesButton),
       alignment: .topTrailing
     )
   }

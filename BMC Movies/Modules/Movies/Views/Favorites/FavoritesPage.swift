@@ -29,6 +29,7 @@ struct FavoritesPage: View {
                 } label: {
                   MovieCard(movie: movie)
                 }
+                .accessibilityIdentifier(AccessibilyId.favoriteMovieCard(movieId: movie.id))
               }
             }
             .padding()

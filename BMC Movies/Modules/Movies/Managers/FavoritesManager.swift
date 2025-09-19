@@ -78,6 +78,9 @@ class FavoritesManager: ObservableObject {
   }
 
   private func persistAddition(_ movie: Movie) {
+    let isUITest = ProcessInfo.processInfo.arguments.contains("UI_TESTS")
+    guard !isUITest else { return }
+
     let context = coreData.container.newBackgroundContext()
 
     context.perform { [weak self] in
@@ -105,6 +108,9 @@ class FavoritesManager: ObservableObject {
   }
 
   private func persistRemoval(_ movie: Movie) {
+    let isUITest = ProcessInfo.processInfo.arguments.contains("UI_TESTS")
+    guard !isUITest else { return }
+    
     let context = coreData.container.newBackgroundContext()
 
     context.perform { [weak self] in

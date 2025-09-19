@@ -10,11 +10,45 @@
 		B1DBD3592E7B22D800F30226 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B1DBD3582E7B22D800F30226 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		236AFF302E7D1DE8005963F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B1DBD31F2E7AF8E500F30226 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B1DBD3262E7AF8E500F30226;
+			remoteInfo = "BMC Movies";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		236AFF2A2E7D1DE8005963F7 /* BMC_MoviesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMC_MoviesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1DBD3272E7AF8E500F30226 /* BMC Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BMC Movies.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		236AFF442E7D2A3C005963F7 /* Exceptions for "Common" folder in "BMC_MoviesUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AccessibilyId.swift,
+			);
+			target = 236AFF292E7D1DE8005963F7 /* BMC_MoviesUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		236AFF2B2E7D1DE8005963F7 /* BMC_MoviesUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BMC_MoviesUITests;
+			sourceTree = "<group>";
+		};
+		236AFF402E7D296B005963F7 /* Common */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				236AFF442E7D2A3C005963F7 /* Exceptions for "Common" folder in "BMC_MoviesUITests" target */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		B1DBD3292E7AF8E500F30226 /* BMC Movies */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "BMC Movies";
@@ -23,6 +57,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		236AFF272E7D1DE8005963F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B1DBD3242E7AF8E500F30226 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -37,7 +78,9 @@
 		B1DBD31E2E7AF8E500F30226 = {
 			isa = PBXGroup;
 			children = (
+				236AFF402E7D296B005963F7 /* Common */,
 				B1DBD3292E7AF8E500F30226 /* BMC Movies */,
+				236AFF2B2E7D1DE8005963F7 /* BMC_MoviesUITests */,
 				B1DBD3282E7AF8E500F30226 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				B1DBD3272E7AF8E500F30226 /* BMC Movies.app */,
+				236AFF2A2E7D1DE8005963F7 /* BMC_MoviesUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,6 +97,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		236AFF292E7D1DE8005963F7 /* BMC_MoviesUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 236AFF322E7D1DE8005963F7 /* Build configuration list for PBXNativeTarget "BMC_MoviesUITests" */;
+			buildPhases = (
+				236AFF262E7D1DE8005963F7 /* Sources */,
+				236AFF272E7D1DE8005963F7 /* Frameworks */,
+				236AFF282E7D1DE8005963F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				236AFF312E7D1DE8005963F7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				236AFF2B2E7D1DE8005963F7 /* BMC_MoviesUITests */,
+			);
+			name = BMC_MoviesUITests;
+			packageProductDependencies = (
+			);
+			productName = BMC_MoviesUITests;
+			productReference = 236AFF2A2E7D1DE8005963F7 /* BMC_MoviesUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		B1DBD3262E7AF8E500F30226 /* BMC Movies */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B1DBD3322E7AF8E700F30226 /* Build configuration list for PBXNativeTarget "BMC Movies" */;
@@ -66,6 +133,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				236AFF402E7D296B005963F7 /* Common */,
 				B1DBD3292E7AF8E500F30226 /* BMC Movies */,
 			);
 			name = "BMC Movies";
@@ -86,6 +154,10 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					236AFF292E7D1DE8005963F7 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = B1DBD3262E7AF8E500F30226;
+					};
 					B1DBD3262E7AF8E500F30226 = {
 						CreatedOnToolsVersion = 26.0;
 					};
@@ -109,11 +181,19 @@
 			projectRoot = "";
 			targets = (
 				B1DBD3262E7AF8E500F30226 /* BMC Movies */,
+				236AFF292E7D1DE8005963F7 /* BMC_MoviesUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		236AFF282E7D1DE8005963F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B1DBD3252E7AF8E500F30226 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,6 +204,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		236AFF262E7D1DE8005963F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B1DBD3232E7AF8E500F30226 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -133,7 +220,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		236AFF312E7D1DE8005963F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B1DBD3262E7AF8E500F30226 /* BMC Movies */;
+			targetProxy = 236AFF302E7D1DE8005963F7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		236AFF332E7D1DE8005963F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.basith.BMC-MoviesUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "BMC Movies";
+			};
+			name = Debug;
+		};
+		236AFF342E7D1DE8005963F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.basith.BMC-MoviesUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "BMC Movies";
+			};
+			name = Release;
+		};
 		B1DBD3302E7AF8E700F30226 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -260,6 +393,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "BMC Movies";
@@ -298,6 +432,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "BMC Movies";
@@ -332,6 +467,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		236AFF322E7D1DE8005963F7 /* Build configuration list for PBXNativeTarget "BMC_MoviesUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				236AFF332E7D1DE8005963F7 /* Debug */,
+				236AFF342E7D1DE8005963F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B1DBD3222E7AF8E500F30226 /* Build configuration list for PBXProject "BMC Movies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
