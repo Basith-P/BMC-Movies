@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "BMC Movies Logo.jpg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -12,6 +13,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "BMC Movies Logo 1.jpg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -23,6 +25,7 @@
           "value" : "tinted"
         }
       ],
+      "filename" : "BMC Movies Logo - Tinted.jpg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
