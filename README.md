@@ -10,10 +10,11 @@ This is a simple iOS application that allows users to discover movies using The 
     ```
 2.  **Open in Xcode**:
     - Navigate to the project directory and open the `BMC Movies.xcodeproj` file.
-3.  **Configure TMDb Access Token via local Debug.xcconfig (v4 Bearer)**:
-    - Create a local file (gitignored) at `BMC Movies/Config/Debug.xcconfig` with the following contents. This repository does not include this file; you must create it locally:
+3.  **Configure TMDb Access Token via local Debug.xcconfig**:
+    - Get your TMDb Access Token from [TMDb API](https://www.themoviedb.org/settings/api).
+    - Create a local file at `BMC Movies/Config/Debug.xcconfig` with the following contents. This repository does not include this file; you must create it locally:
       ```xcconfig
-      TMDB_ACCESS_TOKEN = <your_tmdb_v4_bearer_token_here>
+      TMDB_ACCESS_TOKEN = <your_tmdb_access_token_here>
       ```
     - In Xcode, set the target's Debug “Base Configuration” to `BMC Movies/Config/Debug.xcconfig`.
     - At runtime, the app reads the token via `AppConfig.tmdbAccessToken` from the Info.plist key `TMDB_ACCESS_TOKEN`.
@@ -25,12 +26,12 @@ This is a simple iOS application that allows users to discover movies using The 
 
 The project is built using the **MVVM (Model-View-ViewModel)** architecture with SwiftUI.
 
--   **Model**: Represents the data and business logic of the application (e.g., `Movie`, `FavoriteMovie`). These are simple data structures that hold the movie information.
--   **View**: The UI of the application, built entirely with SwiftUI (e.g., `HomePage`, `MovieDetailsPage`, `SearchPage`). The views are responsible for presenting the data and capturing user input. They observe the ViewModel for any state changes and update themselves accordingly.
--   **ViewModel**: Acts as the intermediary between the Model and the View. It contains the presentation logic, manages the state of the view, and handles any user interactions. For example, `MoviesViewModel` is responsible for fetching movies from the API and managing the search results.
+- **Model**: Represents the data and business logic of the application (e.g., `Movie`, `FavoriteMovie`). These are simple data structures that hold the movie information.
+- **View**: The UI of the application, built entirely with SwiftUI (e.g., `HomePage`, `MovieDetailsPage`, `SearchPage`). The views are responsible for presenting the data and capturing user input. They observe the ViewModel for any state changes and update themselves accordingly.
+- **ViewModel**: Acts as the intermediary between the Model and the View. It contains the presentation logic, manages the state of the view, and handles any user interactions. For example, `MoviesViewModel` is responsible for fetching movies from the API and managing the search results.
 
 ### Why MVVM?
 
--   **Separation of Concerns**: This pattern provides a clean separation between the UI (View) and the business logic (ViewModel), making the codebase more modular, easier to understand, and maintain.
--   **Testability**: The ViewModel can be tested independently of the UI, allowing for more robust unit tests.
--   **Data Binding**: SwiftUI's declarative nature and powerful data-binding capabilities work seamlessly with the ViewModel, allowing the UI to reactively update whenever the underlying data changes.
+- **Separation of Concerns**: This pattern provides a clean separation between the UI (View) and the business logic (ViewModel), making the codebase more modular, easier to understand, and maintain.
+- **Testability**: The ViewModel can be tested independently of the UI, allowing for more robust unit tests.
+- **Data Binding**: SwiftUI's declarative nature and powerful data-binding capabilities work seamlessly with the ViewModel, allowing the UI to reactively update whenever the underlying data changes.
