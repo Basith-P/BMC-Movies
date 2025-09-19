@@ -33,8 +33,8 @@ struct HomePage: View {
         .padding(.vertical, 24)
         .frame(maxWidth: .infinity, alignment: .leading)
       }
-      .navigationTitle("Movies")
       .background(Color.cBackground.ignoresSafeArea())
+      .navigationTitle("Movies")
     }
   }
 }

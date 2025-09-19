@@ -6,6 +6,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 class MoviesViewModel: ObservableObject {
@@ -50,7 +51,10 @@ class MoviesViewModel: ObservableObject {
 
   // MARK: - Private Methods
 
-  private func fetchMovies(for stateKeyPath: ReferenceWritableKeyPath<MoviesViewModel, LoadableState<[Movie]>>, for endpoint: MovieDBEndpoint) {
+  private func fetchMovies(
+    for stateKeyPath: ReferenceWritableKeyPath<MoviesViewModel, LoadableState<[Movie]>>,
+    for endpoint: MovieDBEndpoint
+  ) {
     self[keyPath: stateKeyPath] = .loading
 
     networkService.request(endpoint: endpoint)
@@ -59,6 +63,7 @@ class MoviesViewModel: ObservableObject {
         switch sinkCompletion {
         case .failure(let error):
           self?[keyPath: stateKeyPath] = .failed(error)
+          Logger.general.error("failed to load movies for \(String(describing: stateKeyPath)): \(error)")
         case .finished:
           break
         }

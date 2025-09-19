@@ -12,6 +12,7 @@ struct AccessibilyId {
   static let popular = "popular"
   static let topRated = "topRated"
   static let favoritesButton = "favoritesButton"
+  static let movieDetailPageFavoriteButton = "movieDetailPageFavoriteButton"
 
   static func movieCard(sectionId: String, movieId: Int) -> String { "\(sectionId)_movieCard_\(movieId)" }
   static func favoriteMovieCard(movieId: Int) -> String { "favoriteMovieCard_\(movieId)" }

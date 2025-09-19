@@ -13,7 +13,7 @@ struct SearchPage: View {
   @State private var searchText = ""
   @State private var isSearching = false
   @State private var searchTimer: Timer?
-  
+
   private let debounceDelay: TimeInterval = 0.5
   
   private let columns = [
@@ -84,19 +84,18 @@ extension SearchPage {
       Image(systemName: "magnifyingglass")
         .foregroundColor(.cForeground.opacity(0.7))
         .font(.system(size: 18, weight: .medium))
-
       TextField("Search movies...", text: $searchText)
         .textFieldStyle(.plain)
         .foregroundColor(.cForeground)
         .font(.rounded(.callout, weight: .medium))
         .onChange(of: searchText) { newValue in
           searchTimer?.invalidate()
-          
+
           if newValue.isEmpty {
             moviesVM.searchResults = .idle
             return
           }
-          
+
           searchTimer = Timer.scheduledTimer(withTimeInterval: debounceDelay, repeats: false) { _ in
             performSearch()
           }

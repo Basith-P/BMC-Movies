@@ -14,6 +14,8 @@ struct MovieDetailsPage: View {
   @ObservedObject private var genreCache = GenreCache.shared
   @State private var movieGenres: [Genre] = []
 
+  @ObservedObject var favoritesManager = FavoritesManager.shared
+
   var body: some View {
     ScrollView(showsIndicators: false) {
       VStack(alignment: .leading, spacing: 20) {
@@ -101,6 +103,19 @@ struct MovieDetailsPage: View {
     .navigationBarTitleDisplayMode(.inline)
     .ignoresSafeArea(edges: .top)
     .background(Color.cBackground.ignoresSafeArea())
+    .toolbar {
+      ToolbarItem(placement: .topBarTrailing) {
+        Button {
+          favoritesManager.toggleFavorite(movie)
+        } label: {
+          Image(systemName: favoritesManager.isFavorite(movie) ? "heart.fill" : "heart")
+            .foregroundColor(favoritesManager.isFavorite(movie) ? .accent : .white)
+            .font(.title2)
+            .shadow(radius: 4)
+        }
+        .accessibilityIdentifier(AccessibilyId.movieDetailPageFavoriteButton)
+      }
+    }
     .onAppear { movieGenres = movie.genres(using: genreCache) }
     .onChange(of: genreCache.genres) { genres in
       movieGenres = movie.genres(using: genreCache)
