@@ -11,8 +11,6 @@ import Combine
 class GenreCache: ObservableObject, GenreProvider {
   static let shared = GenreCache()
 
-  private let genresKey = "cached_movie_genres"
-  private let lastFetchKey = "last_genre_fetch_date"
   private let cacheDuration: TimeInterval = 7 * 24 * 60 * 60 // 1 week
 
   private var cancellable: AnyCancellable?
@@ -25,14 +23,14 @@ class GenreCache: ObservableObject, GenreProvider {
   }
 
   private func loadFromCache() {
-    guard let data = UserDefaults.standard.data(forKey: genresKey) else { return }
+    guard let data = UserDefaults.standard.data(forKey: UDKeys.Genre.cached) else { return }
     if let decodedGenres = try? JSONDecoder().decode([Genre].self, from: data) {
       self.genres = decodedGenres
     }
   }
 
   private func fetchGenresIfNeeded() {
-    if let lastFetchDate = UserDefaults.standard.object(forKey: lastFetchKey) as? Date {
+    if let lastFetchDate = UserDefaults.standard.object(forKey: UDKeys.Genre.lastFetchedOn) as? Date {
       if Date().timeIntervalSince(lastFetchDate) < cacheDuration {
         return
       }
@@ -61,8 +59,8 @@ class GenreCache: ObservableObject, GenreProvider {
 
   private func saveToCache(genres: [Genre]) {
     if let encodedData = try? JSONEncoder().encode(genres) {
-      UserDefaults.standard.set(encodedData, forKey: genresKey)
-      UserDefaults.standard.set(Date(), forKey: lastFetchKey)
+      UserDefaults.standard.set(encodedData, forKey: UDKeys.Genre.cached)
+      UserDefaults.standard.set(Date(), forKey: UDKeys.Genre.lastFetchedOn)
     }
   }
 

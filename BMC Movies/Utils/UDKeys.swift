@@ -9,4 +9,9 @@ import Foundation
 
 struct UDKeys {
   static let favoriteMovies = "favoriteMovies"
+
+  struct Genre {
+    static let cached = "cached"
+    static let lastFetchedOn = "lastFetchedOn"
+  }
 }
