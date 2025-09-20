@@ -17,6 +17,7 @@ enum MovieDBEndpoint {
   case topRated
   case search(query: String, page: Int)
   case discover(genreId: Int, sortBy: SortOption, page: Int)
+  case credits(movieId: Int)
 }
 
 extension MovieDBEndpoint: MovieDBAPIEndpoint {
@@ -29,6 +30,7 @@ extension MovieDBEndpoint: MovieDBAPIEndpoint {
     case .topRated: "movie/top_rated"
     case .search: "search/movie"
     case .discover: "discover/movie"
+    case .credits(let movieId): "movie/\(movieId)/credits"
     }
   }
   
@@ -52,6 +54,8 @@ extension MovieDBEndpoint: MovieDBAPIEndpoint {
         URLQueryItem(name: "include_video", value: "false")
         
       ]
+    case .credits:
+      [URLQueryItem(name: "language", value: "en-US")]
     }
   }
 }

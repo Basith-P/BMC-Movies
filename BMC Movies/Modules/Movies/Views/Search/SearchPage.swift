@@ -193,7 +193,7 @@ extension SearchPage {
           movies: movies,
           onReachEnd: { moviesVM.loadMoreSearchResults() },
         )
-        if moviesVM.isLoadingMoreGenre {
+        if moviesVM.isLoadingMoreSearch {
           ProgressView()
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)

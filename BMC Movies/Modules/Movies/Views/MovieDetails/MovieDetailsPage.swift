@@ -15,6 +15,7 @@ struct MovieDetailsPage: View {
   @State private var movieGenres: [Genre] = []
 
   @ObservedObject var favoritesManager = FavoritesManager.shared
+  @StateObject private var detailsVM = MovieDetailsViewModel()
 
   var body: some View {
     ScrollView(showsIndicators: false) {
@@ -100,7 +101,10 @@ struct MovieDetailsPage: View {
             }
           }
         }
+
+        creditsContent
       }
+      .padding(.bottom)
     }
     .multilineTextAlignment(.leading)
     .navigationTitle(movie.title)
@@ -120,9 +124,101 @@ struct MovieDetailsPage: View {
         .accessibilityIdentifier(AccessibilyId.movieDetailPageFavoriteButton)
       }
     }
-    .onAppear { movieGenres = movie.genres(using: genreCache) }
+    .onAppear {
+      movieGenres = movie.genres(using: genreCache)
+      detailsVM.fetchCredits(movieId: movie.id)
+    }
     .onChange(of: genreCache.genres) { genres in
       movieGenres = movie.genres(using: genreCache)
+    }
+  }
+}
+
+// MARK: - Credits Sections
+extension MovieDetailsPage {
+  @ViewBuilder
+  private var creditsContent: some View {
+    switch detailsVM.creditsState {
+    case .idle, .loading:
+      VStack(alignment: .leading, spacing: 16) {
+        Text("Cast")
+          .font(.rounded(.title3, weight: .bold))
+          .padding(.horizontal)
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 16) {
+            ForEach(0..<8, id: \.self) { _ in
+              VStack(spacing: 10) {
+                ShimmerView()
+                  .frame(width: 80, height: 80)
+                  .clipShape(Circle())
+                ShimmerView()
+                  .frame(width: 90, height: 12)
+                  .clipShape(RoundedRectangle(cornerRadius: 4))
+              }
+              .frame(width: 100)
+            }
+          }
+          .padding(.horizontal)
+        }
+
+        Text("Crew")
+          .font(.rounded(.title3, weight: .bold))
+          .padding(.horizontal)
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 16) {
+            ForEach(0..<8, id: \.self) { _ in
+              VStack(spacing: 10) {
+                ShimmerView()
+                  .frame(width: 80, height: 80)
+                  .clipShape(Circle())
+                ShimmerView()
+                  .frame(width: 90, height: 12)
+                  .clipShape(RoundedRectangle(cornerRadius: 4))
+              }
+              .frame(width: 100)
+            }
+          }
+          .padding(.horizontal)
+          .padding(.bottom, 8)
+        }
+      }
+
+    case .loaded(let credits):
+      VStack(alignment: .leading, spacing: 16) {
+        if !credits.cast.isEmpty {
+          Text("Cast")
+            .font(.rounded(.title3, weight: .bold))
+            .padding(.horizontal)
+          ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+              ForEach(credits.cast.sorted(by: { (lhs, rhs) in
+                (lhs.order ?? Int.max) < (rhs.order ?? Int.max)
+              })) { cast in
+                CastMemberCard(cast: cast)
+              }
+            }
+            .padding(.horizontal)
+          }
+        }
+
+        if !credits.crew.isEmpty {
+          Text("Crew")
+            .font(.rounded(.title3, weight: .bold))
+            .padding(.horizontal)
+          ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+              ForEach(Array(credits.crew.prefix(20))) { crew in
+                CrewMemberCard(crew: crew)
+              }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 8)
+          }
+        }
+      }
+
+    case .failed(_):
+      ErrorView(retryAction: { detailsVM.fetchCredits(movieId: movie.id) })
     }
   }
 }
