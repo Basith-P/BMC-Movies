@@ -15,7 +15,7 @@ struct SearchPage: View {
   @State private var searchTimer: Timer?
 
   private let debounceDelay: TimeInterval = 0.5
-  
+
   private let columns = [
     GridItem(.flexible(), spacing: 16),
     GridItem(.flexible(), spacing: 16)
@@ -57,6 +57,7 @@ struct SearchPage: View {
           }
         }
       }
+      .onTapGesture(perform: hideKeyboard)
       .navigationTitle("Discover")
       .onDisappear {
         searchTimer?.invalidate()
@@ -84,22 +85,28 @@ extension SearchPage {
       Image(systemName: "magnifyingglass")
         .foregroundColor(.cForeground.opacity(0.7))
         .font(.system(size: 18, weight: .medium))
-      TextField("Search movies...", text: $searchText)
-        .textFieldStyle(.plain)
-        .foregroundColor(.cForeground)
-        .font(.rounded(.callout, weight: .medium))
-        .onChange(of: searchText) { newValue in
-          searchTimer?.invalidate()
-
-          if newValue.isEmpty {
-            moviesVM.searchResults = .idle
-            return
-          }
-
-          searchTimer = Timer.scheduledTimer(withTimeInterval: debounceDelay, repeats: false) { _ in
-            performSearch()
-          }
+      Group {
+        if #available(iOS 15.0, *) {
+          FocusableTextField(titleKey: "Search movies...", text: $searchText)
+        } else {
+          TextField("Search movies...", text: $searchText)
         }
+      }
+      .textFieldStyle(.plain)
+      .foregroundColor(.cForeground)
+      .font(.rounded(.callout, weight: .medium))
+      .onChange(of: searchText) { newValue in
+        searchTimer?.invalidate()
+
+        if newValue.isEmpty {
+          moviesVM.searchResults = .idle
+          return
+        }
+
+        searchTimer = Timer.scheduledTimer(withTimeInterval: debounceDelay, repeats: false) { _ in
+          performSearch()
+        }
+      }
 
       if !searchText.isEmpty {
         Button(action: clearSearch) {
@@ -164,7 +171,7 @@ extension SearchPage {
     }
     .padding(.horizontal, 32)
   }
-  
+
   private var searchResultsView: some View {
     LazyVGrid(columns: columns, spacing: 16) {
       switch moviesVM.searchResults {
@@ -190,22 +197,22 @@ extension SearchPage {
     .padding(.horizontal, 20)
     .padding(.top, 24)
   }
-  
+
   private var noResultsView: some View {
     VStack(spacing: 24) {
       ZStack {
         Circle()
           .fill(Color.orange.opacity(0.2))
           .frame(width: 100, height: 100)
-        
+
         Image(systemName: "questionmark.app.dashed")
           .font(.system(size: 40, weight: .light))
       }
-      
+
       VStack(spacing: 12) {
         Text("No Movies Found")
           .font(.system(size: 24, weight: .bold, design: .rounded))
-        
+
         Text("Try different keywords or check your spelling")
           .font(.system(size: 16, weight: .medium))
           .opacity(0.7)
@@ -217,23 +224,23 @@ extension SearchPage {
     .frame(maxWidth: .infinity, alignment: .center)
     .multilineTextAlignment(.center)
   }
-  
+
   private func errorView(error: Error) -> some View {
     VStack(spacing: 24) {
       ZStack {
         Circle()
           .fill(Color.red.opacity(0.2))
           .frame(width: 100, height: 100)
-        	
+
         Image(systemName: "exclamationmark")
           .font(.system(size: 40, weight: .light))
           .foregroundColor(.red)
       }
-      
+
       VStack(spacing: 12) {
         Text("Something went wrong")
           .font(.system(size: 24, weight: .bold, design: .rounded))
-        
+
         Text("Please try again later")
           .font(.system(size: 16, weight: .medium))
           .opacity(0.7)
@@ -260,7 +267,7 @@ extension SearchPage {
     .padding(.top, 80)
     .frame(maxWidth: .infinity)
   }
-  
+
   private var searchResultPlaceholder: some View {
     ShimmerView()
       .aspectRatio(2/3, contentMode: .fill)
@@ -272,17 +279,17 @@ extension SearchPage {
 extension SearchPage {
   private func performSearch() {
     guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-    hideKeyboard()
+    //    hideKeyboard()
     moviesVM.searchMovie(query: searchText)
   }
-  
+
   private func clearSearch() {
     searchTimer?.invalidate()
     searchText = ""
     isSearching = false
     moviesVM.searchResults = .idle
   }
-  
+
   private func hideKeyboard() {
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
   }

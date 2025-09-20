@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
   @StateObject private var moviesVM: MoviesViewModel
 
+  let haptic = UIImpactFeedbackGenerator()
+
   init() {
 #if DEBUG
     let isUITest = ProcessInfo.processInfo.arguments.contains("UI_TESTS")
@@ -17,6 +19,7 @@ struct ContentView: View {
 #else
     _moviesVM = .init(wrappedValue: .init())
 #endif
+    haptic.prepare()
   }
 
   @State private var selectedTab = 0
@@ -38,6 +41,9 @@ struct ContentView: View {
           Label("Favorites", systemImage: selectedTab == 2 ? "heart.fill" : "heart")
         }
         .tag(2)
+    }
+    .onChange(of: selectedTab) { _ in
+      haptic.impactOccurred()
     }
   }
 }

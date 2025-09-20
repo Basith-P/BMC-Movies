@@ -7,7 +7,7 @@
 
 import Combine
 import CoreData
-import Foundation
+import SwiftUI
 import OSLog
 
 class FavoritesManager: ObservableObject {
@@ -18,8 +18,10 @@ class FavoritesManager: ObservableObject {
 
   private let coreData = CoreDataManager.shared
   private let logger = Logger.favorites
+  private let haptic = UISelectionFeedbackGenerator()
 
   private init() {
+    haptic.prepare()
     loadFavorites()
   }
   
@@ -35,6 +37,7 @@ class FavoritesManager: ObservableObject {
     } else {
       addFavorite(movie)
     }
+    haptic.selectionChanged()
   }
   
   func addFavorite(_ movie: Movie) {

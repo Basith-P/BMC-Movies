@@ -26,11 +26,12 @@ struct MovieCard: View {
         Text(movie.title)
           .font(.rounded(.headline, weight: .semibold))
           .lineLimit(2)
-        Group {
-          Text(String(format: "%.2f", movie.voteAverage)) +
-          Text("/10")
+        HStack(spacing: 2) {
+          Image(systemName: "star.fill")
+            .foregroundColor(.yellow)
+          Text(String(format: "%.1f", movie.voteAverage))
         }
-        .font(.rounded(.caption, weight: .semibold)).opacity(0.7)
+        .font(.rounded(.caption, weight: .semibold)).opacity(0.8)
       }
       .foregroundColor(.white)
       .padding()
