@@ -148,5 +148,6 @@ class FavoritesManager: ObservableObject {
     entity.adult = movie.adult
     entity.voteAverage = movie.voteAverage
     entity.voteCount = Int32(movie.voteCount)
+    entity.addedOn = Date()
   }
 }

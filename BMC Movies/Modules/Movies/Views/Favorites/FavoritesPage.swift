@@ -30,6 +30,7 @@ struct FavoritesPage: View {
                   MovieCard(movie: movie)
                 }
                 .accessibilityIdentifier(AccessibilyId.favoriteMovieCard(movieId: movie.id))
+                .transition(.scale.combined(with: .opacity))
               }
             }
             .padding()
@@ -39,6 +40,7 @@ struct FavoritesPage: View {
       .navigationTitle("Favorites")
       .navigationBarTitleDisplayMode(.large)
       .background(Color.cBackground.ignoresSafeArea())
+      .animation(.snappy, value: favoritesManager.favoriteMovies.count)
     }
   }
   
