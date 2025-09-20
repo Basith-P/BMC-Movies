@@ -21,6 +21,11 @@ class MoviesViewModel: ObservableObject {
   private var currentGenreSort: SortOption = .popularityDesc
   private var currentGenrePage: Int = 1
   private var totalGenrePages: Int = 1
+  // Pagination - Search
+  @Published var isLoadingMoreSearch: Bool = false
+  private var currentSearchQuery: String = ""
+  private var currentSearchPage: Int = 1
+  private var totalSearchPages: Int = 1
   
   @Published var isLoading: Bool = false
   @Published var error: NetworkError? = nil
@@ -52,8 +57,56 @@ class MoviesViewModel: ObservableObject {
     guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
       return
     }
-    
-    fetchMovies(for: \.searchResults, for: .search(query: query))
+    currentSearchQuery = query
+    currentSearchPage = 1
+    totalSearchPages = 1
+    searchResults = .loading
+
+    networkService.request(endpoint: MovieDBEndpoint.search(query: query, page: 1))
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        switch completion {
+        case .failure(let error):
+          self?.searchResults = .failed(error)
+          Logger.general.error("failed to load search results for query \(query): \(error)")
+        case .finished:
+          break
+        }
+      } receiveValue: { [weak self] (response: MovieResponse) in
+        self?.searchResults = .loaded(response.results)
+        self?.currentSearchPage = response.page
+        self?.totalSearchPages = response.totalPages
+      }
+      .store(in: &cancellables)
+  }
+
+  func loadMoreSearchResults() {
+    guard !isLoadingMoreSearch,
+          case .loaded(let currentMovies) = searchResults,
+          !currentSearchQuery.isEmpty,
+          currentSearchPage < totalSearchPages else { return }
+
+    isLoadingMoreSearch = true
+
+    networkService.request(endpoint: MovieDBEndpoint.search(query: currentSearchQuery, page: currentSearchPage + 1))
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          Logger.general.error("failed to load more search results for query \(self?.currentSearchQuery ?? ""): \(error)")
+          self?.isLoadingMoreSearch = false
+        }
+      } receiveValue: { [weak self] (response: MovieResponse) in
+        guard let self else { return }
+        var combined = currentMovies
+        let existingIds = Set(currentMovies.map { $0.id })
+        let newOnes = response.results.filter { !existingIds.contains($0.id) }
+        combined.append(contentsOf: newOnes)
+        self.searchResults = .loaded(combined)
+        self.currentSearchPage = response.page
+        self.isLoadingMoreSearch = false
+        self.totalSearchPages = response.totalPages
+      }
+      .store(in: &cancellables)
   }
   
   func fetchMoviesByGenre(genreId: Int, sortBy: SortOption = .popularityDesc) {

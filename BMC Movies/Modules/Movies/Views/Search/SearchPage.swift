@@ -20,6 +20,7 @@ struct SearchPage: View {
     GridItem(.flexible(), spacing: 16),
     GridItem(.flexible(), spacing: 16)
   ]
+  private let prefetchThreshold: Int = 4
 
   var body: some View {
     NavigationView {
@@ -173,29 +174,38 @@ extension SearchPage {
   }
 
   private var searchResultsView: some View {
-    LazyVGrid(columns: columns, spacing: 16) {
+    VStack(spacing: 0) {
       switch moviesVM.searchResults {
       case .idle, .failed:
         EmptyView()
 
       case .loading:
-        ForEach(0..<6, id: \.self) { _ in
-          searchResultPlaceholder
+        LazyVGrid(columns: columns, spacing: 16) {
+          ForEach(0..<6, id: \.self) { _ in
+            searchResultPlaceholder
+          }
+          .padding(.horizontal, 20)
+          .padding(.top, 24)
         }
 
       case .loaded(let movies):
-        ForEach(movies) { movie in
-          NavigationLink {
-            MovieDetailsPage(movie: movie)
-          } label: {
-            SearchMovieCard(movie: movie)
-          }
-          .buttonStyle(.plain)
+        MoviesGridView(
+          movies: movies,
+          onReachEnd: { moviesVM.loadMoreSearchResults() },
+        )
+        if moviesVM.isLoadingMoreGenre {
+          ProgressView()
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
         }
       }
+
+      if moviesVM.isLoadingMoreSearch {
+        ProgressView()
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 16)
+      }
     }
-    .padding(.horizontal, 20)
-    .padding(.top, 24)
   }
 
   private var noResultsView: some View {
@@ -279,7 +289,6 @@ extension SearchPage {
 extension SearchPage {
   private func performSearch() {
     guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-    //    hideKeyboard()
     moviesVM.searchMovie(query: searchText)
   }
 
