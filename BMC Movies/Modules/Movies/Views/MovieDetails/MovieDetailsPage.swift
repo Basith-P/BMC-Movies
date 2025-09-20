@@ -33,9 +33,13 @@ struct MovieDetailsPage: View {
             )
 
           HStack(alignment: .bottom, spacing: 16) {
-            KFImage(movie.posterURL)
-              .resizable()
-              .aspectRatio(contentMode: .fill)
+            Rectangle()
+              .fill(Color.primary.opacity(0.1))
+              .overlay(
+                KFImage(movie.posterURL)
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
+              )
               .frame(width: 120, height: 180)
               .clipShape(RoundedRectangle(cornerRadius: 16))
               .shadow(radius: 10)

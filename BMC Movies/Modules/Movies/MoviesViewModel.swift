@@ -17,7 +17,7 @@ class MoviesViewModel: ObservableObject {
   @Published var moviesByGenre: LoadableState<[Movie]> = .idle
   // Pagination - Genre
   @Published var isLoadingMoreGenre: Bool = false
-  private var currentGenreId: Int?
+  var currentGenreId: Int?
   private var currentGenreSort: SortOption = .popularityDesc
   private var currentGenrePage: Int = 1
   private var totalGenrePages: Int = 1

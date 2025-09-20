@@ -17,6 +17,7 @@ struct MoviesByGenrePage: View {
       switch moviesVM.moviesByGenre {
       case .idle, .loading:
         ProgressView()
+          .background(Color.cBackground.ignoresSafeArea())
       case .failed(_):
         ErrorView() {
           moviesVM.fetchMoviesByGenre(genreId: genre.id, sortBy: sortOption)
@@ -53,6 +54,9 @@ struct MoviesByGenrePage: View {
       moviesVM.fetchMoviesByGenre(genreId: genre.id, sortBy: newValue)
     }
     .onAppear {
+      if moviesVM.currentGenreId != genre.id {
+        moviesVM.moviesByGenre = .idle
+      }
       if moviesVM.moviesByGenre.value == nil {
         moviesVM.fetchMoviesByGenre(genreId: genre.id, sortBy: sortOption)
       }
