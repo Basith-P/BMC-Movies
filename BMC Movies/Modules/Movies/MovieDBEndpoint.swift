@@ -16,7 +16,7 @@ enum MovieDBEndpoint {
   case popular
   case topRated
   case search(query: String)
-  case discover(genreId: Int, sortBy: SortOption)
+  case discover(genreId: Int, sortBy: SortOption, page: Int)
 }
 
 extension MovieDBEndpoint: MovieDBAPIEndpoint {
@@ -41,12 +41,12 @@ extension MovieDBEndpoint: MovieDBAPIEndpoint {
         URLQueryItem(name: "language", value: "en-US"),
         URLQueryItem(name: "query", value: query)
       ]
-    case .discover(let genreId, let sortBy):
+    case .discover(let genreId, let sortBy, let page):
       [
         URLQueryItem(name: "language", value: "en-US"),
         URLQueryItem(name: "with_genres", value: "\(genreId)"),
         URLQueryItem(name: "sort_by", value: sortBy.rawValue),
-        URLQueryItem(name: "page", value: "1"),
+        URLQueryItem(name: "page", value: "\(page)"),
         URLQueryItem(name: "include_adult", value: "false"),
         URLQueryItem(name: "include_video", value: "false")
         

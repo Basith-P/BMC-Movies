@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MoviesGridView: View {
   let movies: [Movie]
+  var onReachEnd: (() -> Void)? = nil
+  var prefetchThreshold: Int = 4
 
   private let columns = [
     GridItem(.flexible(), spacing: 16),
@@ -17,13 +19,19 @@ struct MoviesGridView: View {
 
   var body: some View {
     LazyVGrid(columns: columns, spacing: 16) {
-      ForEach(movies) { movie in
+      ForEach(Array(movies.enumerated()), id: \.element.id) { index, movie in
         NavigationLink {
           MovieDetailsPage(movie: movie)
         } label: {
           MovieCard(movie: movie)
         }
         .buttonStyle(.plain)
+        .id(movie.id)
+        .onAppear {
+          if index >= movies.count - prefetchThreshold {
+            onReachEnd?()
+          }
+        }
       }
     }
     .padding(.horizontal, 20)

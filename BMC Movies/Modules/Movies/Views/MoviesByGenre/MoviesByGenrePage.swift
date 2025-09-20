@@ -11,6 +11,7 @@ struct MoviesByGenrePage: View {
   let genre: Genre
   @EnvironmentObject var moviesVM: MoviesViewModel
   @State private var sortOption: SortOption = .popularityDesc
+  @State private var preservedScrollMovieId: Int? = nil
 
   var body: some View {
     Group {
@@ -19,11 +20,28 @@ struct MoviesByGenrePage: View {
         ProgressView()
       case .failed(_):
         ErrorView() {
-          moviesVM.fetchMoviesByGenre(genreId: genre.id)
+          moviesVM.fetchMoviesByGenre(genreId: genre.id, sortBy: sortOption)
         }
       case .loaded(let movies):
-        ScrollView {
-          MoviesGridView(movies: movies)
+        ScrollViewReader { proxy in
+          ScrollView {
+            MoviesGridView(
+              movies: movies,
+              onReachEnd: { moviesVM.loadMoreMoviesByGenre() },
+            )
+            if moviesVM.isLoadingMoreGenre {
+              ProgressView()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+            }
+          }
+          .onAppear {
+            if let id = preservedScrollMovieId {
+              DispatchQueue.main.async {
+                withAnimation { proxy.scrollTo(id, anchor: .top) }
+              }
+            }
+          }
         }
       }
     }
@@ -45,10 +63,9 @@ struct MoviesByGenrePage: View {
       moviesVM.fetchMoviesByGenre(genreId: genre.id, sortBy: newValue)
     }
     .onAppear {
-      moviesVM.fetchMoviesByGenre(genreId: genre.id, sortBy: sortOption)
-    }
-    .onDisappear {
-      moviesVM.moviesByGenre = .idle
+      if moviesVM.moviesByGenre.value == nil {
+        moviesVM.fetchMoviesByGenre(genreId: genre.id, sortBy: sortOption)
+      }
     }
     .navigationTitle(genre.name)
   }

@@ -15,6 +15,12 @@ class MoviesViewModel: ObservableObject {
   @Published var topRatedState: LoadableState<[Movie]> = .idle
   @Published var searchResults: LoadableState<[Movie]> = .idle
   @Published var moviesByGenre: LoadableState<[Movie]> = .idle
+  // Pagination - Genre
+  @Published var isLoadingMoreGenre: Bool = false
+  private var currentGenreId: Int?
+  private var currentGenreSort: SortOption = .popularityDesc
+  private var currentGenrePage: Int = 1
+  private var totalGenrePages: Int = 1
   
   @Published var isLoading: Bool = false
   @Published var error: NetworkError? = nil
@@ -51,7 +57,57 @@ class MoviesViewModel: ObservableObject {
   }
   
   func fetchMoviesByGenre(genreId: Int, sortBy: SortOption = .popularityDesc) {
-    fetchMovies(for: \.moviesByGenre, for: .discover(genreId: genreId, sortBy: sortBy))
+    currentGenreId = genreId
+    currentGenreSort = sortBy
+    currentGenrePage = 1
+    totalGenrePages = 1
+    moviesByGenre = .loading
+
+    networkService.request(endpoint: MovieDBEndpoint.discover(genreId: genreId, sortBy: sortBy, page: 1))
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        switch completion {
+        case .failure(let error):
+          self?.moviesByGenre = .failed(error)
+          Logger.general.error("failed to load movies for genre \(genreId): \(error)")
+        case .finished:
+          break
+        }
+      } receiveValue: { [weak self] (response: MovieResponse) in
+        self?.moviesByGenre = .loaded(response.results)
+        self?.currentGenrePage = response.page
+        self?.totalGenrePages = response.totalPages
+      }
+      .store(in: &cancellables)
+  }
+
+  func loadMoreMoviesByGenre() {
+    guard !isLoadingMoreGenre,
+          case .loaded(let currentMovies) = moviesByGenre,
+          let genreId = currentGenreId,
+          currentGenrePage < totalGenrePages else { return }
+
+    isLoadingMoreGenre = true
+
+    networkService.request(endpoint: MovieDBEndpoint.discover(genreId: genreId, sortBy: currentGenreSort, page: currentGenrePage + 1))
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] completion in
+        if case .failure(let error) = completion {
+          Logger.general.error("failed to load more movies for genre \(genreId): \(error)")
+          self?.isLoadingMoreGenre = false
+        }
+      } receiveValue: { [weak self] (response: MovieResponse) in
+        guard let self else { return }
+        var combined = currentMovies
+        let existingIds = Set(currentMovies.map { $0.id })
+        let newOnes = response.results.filter { !existingIds.contains($0.id) }
+        combined.append(contentsOf: newOnes)
+        self.moviesByGenre = .loaded(combined)
+        self.currentGenrePage = response.page
+        self.isLoadingMoreGenre = false
+        self.totalGenrePages = response.totalPages
+      }
+      .store(in: &cancellables)
   }
   
   // MARK: - Private Methods
