@@ -11,25 +11,27 @@ enum MovieDBEndpoint {
   enum TimelineWindow {
     case day, week
   }
-
+  
   case nowPlaying
   case popular
   case topRated
   case search(query: String)
+  case discover(genreId: Int, sortBy: SortOption)
 }
 
 extension MovieDBEndpoint: MovieDBAPIEndpoint {
   var method: String { "GET" }
-
+  
   var path: String {
     switch self {
     case .nowPlaying: "movie/now_playing"
     case .popular: "movie/popular"
     case .topRated: "movie/top_rated"
     case .search: "search/movie"
+    case .discover: "discover/movie"
     }
   }
-
+  
   var queryItems: [URLQueryItem]? {
     switch self {
     case .nowPlaying, .popular, .topRated:
@@ -38,6 +40,16 @@ extension MovieDBEndpoint: MovieDBAPIEndpoint {
       [
         URLQueryItem(name: "language", value: "en-US"),
         URLQueryItem(name: "query", value: query)
+      ]
+    case .discover(let genreId, let sortBy):
+      [
+        URLQueryItem(name: "language", value: "en-US"),
+        URLQueryItem(name: "with_genres", value: "\(genreId)"),
+        URLQueryItem(name: "sort_by", value: sortBy.rawValue),
+        URLQueryItem(name: "page", value: "1"),
+        URLQueryItem(name: "include_adult", value: "false"),
+        URLQueryItem(name: "include_video", value: "false")
+        
       ]
     }
   }

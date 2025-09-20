@@ -44,7 +44,7 @@ struct MovieDetailsPage: View {
               Text(movie.title)
                 .font(.rounded(.title2, weight: .bold))
                 .lineLimit(3)
-              Text(movie.releaseDate)
+              Text(movie.formattedReleaseDate)
                 .font(.rounded(.subheadline))
                 .opacity(0.8)
                 .padding(.bottom)

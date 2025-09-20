@@ -52,6 +52,15 @@ struct Movie: Codable, Identifiable, Equatable {
     return URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)")
   }
 
+  var formattedReleaseDate: String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    guard let date = dateFormatter.date(from: releaseDate) else { return releaseDate }
+    
+    dateFormatter.dateFormat = "MMM d, yyyy"
+    return dateFormatter.string(from: date)
+  }
+
   func genres(using provider: GenreProvider) -> [Genre] {
     genreIds.compactMap { id in
       guard let name = provider.genreName(for: id) else { return nil }

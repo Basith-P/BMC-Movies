@@ -14,49 +14,54 @@ class MoviesViewModel: ObservableObject {
   @Published var popularState: LoadableState<[Movie]> = .idle
   @Published var topRatedState: LoadableState<[Movie]> = .idle
   @Published var searchResults: LoadableState<[Movie]> = .idle
-
+  @Published var moviesByGenre: LoadableState<[Movie]> = .idle
+  
   @Published var isLoading: Bool = false
   @Published var error: NetworkError? = nil
-
+  
   private let networkService: NetworkService
   private var cancellables = Set<AnyCancellable>()
-
+  
   init(networkService: NetworkService = URLSessionNetworkService()) {
     self.networkService = networkService
-
+    
     fetchNowPlaying()
     fetchPopular()
     fetchTopRated()
   }
-
+  
   func fetchNowPlaying() {
-    fetchMovies(for: \MoviesViewModel.nowPlayingState, for: .nowPlaying)
+    fetchMovies(for: \.nowPlayingState, for: .nowPlaying)
   }
-
+  
   func fetchPopular() {
-    fetchMovies(for: \MoviesViewModel.popularState, for: .popular)
+    fetchMovies(for: \.popularState, for: .popular)
   }
-
+  
   func fetchTopRated() {
-    fetchMovies(for: \MoviesViewModel.topRatedState, for: .topRated)
+    fetchMovies(for: \.topRatedState, for: .topRated)
   }
-
+  
   func searchMovie(query: String) {
     guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
       return
     }
-
-    fetchMovies(for: \MoviesViewModel.searchResults, for: .search(query: query))
+    
+    fetchMovies(for: \.searchResults, for: .search(query: query))
   }
-
+  
+  func fetchMoviesByGenre(genreId: Int, sortBy: SortOption = .popularityDesc) {
+    fetchMovies(for: \.moviesByGenre, for: .discover(genreId: genreId, sortBy: sortBy))
+  }
+  
   // MARK: - Private Methods
-
+  
   private func fetchMovies(
     for stateKeyPath: ReferenceWritableKeyPath<MoviesViewModel, LoadableState<[Movie]>>,
     for endpoint: MovieDBEndpoint
   ) {
     self[keyPath: stateKeyPath] = .loading
-
+    
     networkService.request(endpoint: endpoint)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] sinkCompletion in
@@ -73,4 +78,3 @@ class MoviesViewModel: ObservableObject {
       .store(in: &cancellables)
   }
 }
-

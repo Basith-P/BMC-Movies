@@ -36,15 +36,21 @@ struct ContentView: View {
           Label("Search", systemImage: "magnifyingglass")
         }
         .tag(1)
+      GenresPage()
+        .tabItem {
+          Label("Genres", systemImage: selectedTab == 2 ? "books.vertical.fill" : "books.vertical")
+        }
+        .tag(2)
       FavoritesPage()
         .tabItem {
           Label("Favorites", systemImage: selectedTab == 2 ? "heart.fill" : "heart")
         }
-        .tag(2)
+        .tag(3)
     }
     .onChange(of: selectedTab) { _ in
       haptic.impactOccurred()
     }
+    .environmentObject(moviesVM)
   }
 }
 
